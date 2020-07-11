@@ -4,8 +4,8 @@ import argparse
 import pathspec
 import torch
 
-from utils.dist_utils import is_main_process, dist_print, DistSummaryWriter
-from utils.config import Config
+from .dist_utils import is_main_process, dist_print, DistSummaryWriter
+from .config import Config
 
 
 def str2bool(v):
