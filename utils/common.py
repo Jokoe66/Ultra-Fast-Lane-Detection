@@ -42,6 +42,7 @@ def get_args():
     parser.add_argument('--resume', default = None, type = str)
     parser.add_argument('--test_model', default = None, type = str)
     parser.add_argument('--test_work_dir', default = None, type = str)
+    parser.add_argument('--test_img', default = None, type = str)
 
     return parser
 
