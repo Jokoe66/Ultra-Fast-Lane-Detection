@@ -1,7 +1,12 @@
-import os, argparse
+import os
+import argparse
+
+import pathspec
+import torch
+
 from utils.dist_utils import is_main_process, dist_print, DistSummaryWriter
 from utils.config import Config
-import torch
+
 
 def str2bool(v):
     if isinstance(v, bool):
@@ -13,11 +18,11 @@ def str2bool(v):
     else:
         raise argparse.ArgumentTypeError('Boolean value expected.')
 
+
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('config', help = 'path to config file')
     parser.add_argument('--local_rank', type=int, default=0)
-
     parser.add_argument('--dataset', default = None, type = str)
     parser.add_argument('--data_root', default = None, type = str)
     parser.add_argument('--epoch', default = None, type = int)
@@ -46,6 +51,7 @@ def get_args():
 
     return parser
 
+
 def merge_config():
     args = get_args().parse_args()
     cfg = Config.fromfile(args.config)
@@ -70,7 +76,6 @@ def save_model(net, optimizer, epoch,save_path, distributed):
         model_path = os.path.join(save_path, 'ep%03d.pth' % epoch)
         torch.save(state, model_path)
 
-import pathspec
 
 def cp_projects(to_path):
     if is_main_process():
@@ -97,6 +102,7 @@ def get_work_dir(cfg):
     hyper_param_str = '_lr_%1.0e_b_%d' % (cfg.learning_rate, cfg.batch_size)
     work_dir = os.path.join(cfg.log_path, now + hyper_param_str + cfg.note)
     return work_dir
+
 
 def get_logger(work_dir, cfg):
     logger = DistSummaryWriter(work_dir)
