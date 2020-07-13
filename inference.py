@@ -22,7 +22,7 @@ def init_model(cfg, device='cuda:0'):
 
     if cfg.dataset == 'CULane':
         cls_num_per_lane = 18
-        cfg.row_anchor = culane_row_anchor 
+        cfg.row_anchor = culane_row_anchor
     elif cfg.dataset == 'Tusimple':
         cls_num_per_lane = 56
         cfg.row_anchor = tusimple_row_anchor
@@ -102,7 +102,7 @@ def show_result(img, result, **kwargs):
         img = Image.open(img)
     elif isinstance(img, np.ndarray):
         img = Image.fromarray(img)
-    else:
+    elif not isinstance(img, Image.Image):
         raise ValueError('img should be str, ndarray or Image')
     colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0)]
     draw = ImageDraw.Draw(img)
